@@ -1,174 +1,157 @@
 ---
 theme: default
 background: https://cover.sli.dev
-title: cobertura de pruebas de software
+title: Cobertura de pruebas de software
 favicon: '/test.svg'
-info: tdd
+info: Cobertura de pruebas en TDD
 class: text-center
 transition: slide-left
-comark: true
 ---
 
+# Cobertura de Pruebas de Software
 
-# Cobertura de pruebas de software
+### Pruebas de Software & TDD
 
-Grupo 4
-
+<div class="pt-12 opacity-80">
+  Grupo 4
+</div>
 
 <!--
-The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
+Notas del orador:
+Introducción al tema de cobertura de pruebas y su rol fundamental en TDD.
 -->
 
 ---
 
-# Tabla de contenido
+# Tabla de Contenido
 
 <Toc text-sm minDepth="1" maxDepth="2" />
 
 ---
-
-# ¿Qué es cobertura de pruebas?
-
-- La cobertura de código es una medida (porcentual) en las pruebas de software que mide el grado en que el código fuente de un programa ha sido comprobado con pruebas de software. Sirve para determinar la calidad del test que se lleve a cabo y para determinar las partes críticas del código que no han sido comprobadas y las partes que ya lo fueron, además se puede utilizar como técnica de optimización dentro de un compilador optimizador para llevar a cabo una eliminación de código muerto, más específicamente sirve para detectar código inalcanzable.
-
-<style>
-h1 { text-align: center; }
-li { text-align: justify; }
-</style>
-
+layout: section
+background: https://cover.sli.dev
 ---
 
-# Importancia de la cobertura de pruebas
-
-
+# Concepto e Importancia de la Cobertura en TDD
 
 ---
+layout: two-cols
+gap: 4
+---
 
-# Code
+## Concepto
 
-Use code snippets and get the highlighting directly, and even types hover!
+La **cobertura de pruebas** (*test coverage*) es una métrica cuantitativa que indica el porcentaje del código fuente ejecutado durante las pruebas automatizadas.
 
-```ts [filename-example.ts] {all|4|6|6-7|9|all} twoslash
-// TwoSlash enables TypeScript hover information
-// and errors in markdown code blocks
-// More at https://shiki.style/packages/twoslash
-import { computed, ref } from 'vue'
+En **TDD (Test-Driven Development)**, donde las pruebas se escriben antes del código de producción, sirve para medir qué tanto interactúa la suite de pruebas con el sistema.
 
-const count = ref(0)
-const doubled = computed(() => count.value * 2)
+::right::
 
-doubled.value = 2
+
+### Ciclo TDD y Cobertura
+
+```mermaid
+graph TD
+    A[Red: Prueba falla] -->|Código mínimo| B[Green: Prueba pasa]
+    B -->|Optimización| C[Refactor]
+    C -->|Mide impacto| A
+
 ```
 
-<arrow v-click="[4, 5]" x1="350" y1="310" x2="195" y2="342" color="#953" width="2" arrowSize="1" />
-
-<!-- This allow you to embed external code blocks -->
-<<< @/snippets/external.ts#snippet
-
-<!-- Footer -->
-
-[Learn more](https://sli.dev/features/line-highlighting)
-
-<!-- Inline style -->
-<style>
-.footnotes-sep {
-  @apply mt-5 opacity-10;
-}
-.footnotes {
-  @apply text-sm opacity-75;
-}
-.footnote-backref {
-  display: none;
-}
-</style>
-
-<!--
-Notes can also sync with clicks
-
-[click] This will be highlighted after the first click
-
-[click] Highlighted with `count = ref(0)`
-
-[click:3] Last click (skip two clicks)
--->
-
----
-level: 2
 ---
 
-# Shiki Magic Move
+## Importancia en TDD
 
-Powered by [shiki-magic-move](https://shiki-magic-move.netlify.app/), Slidev supports animations across multiple code snippets.
+### Validación Ciclo TDD
 
-Add multiple code blocks and wrap them with <code>````md magic-move</code> (four backticks) to enable the magic move. For example:
+Garantiza que el código escrito para pasar de **Red** a **Green** esté efectivamente probado.
 
-````md magic-move {lines: true}
-```ts {*|2|*}
-// step 1
-const author = reactive({
-  name: 'John Doe',
-  books: [
-    'Vue 2 - Advanced Guide',
-    'Vue 3 - Basic Guide',
-    'Vue 4 - The Mystery'
-  ]
-})
-```
+### Detección de Código Muerto
 
-```ts {*|1-2|3-4|3-4,8}
-// step 2
-export default {
-  data() {
-    return {
-      author: {
-        name: 'John Doe',
-        books: [
-          'Vue 2 - Advanced Guide',
-          'Vue 3 - Basic Guide',
-          'Vue 4 - The Mystery'
-        ]
-      }
-    }
-  }
-}
-```
+Identifica bloques, métodos o condicionales inalcanzables o nunca ejecutados.
 
-```ts
-// step 3
-export default {
-  data: () => ({
-    author: {
-      name: 'John Doe',
-      books: [
-        'Vue 2 - Advanced Guide',
-        'Vue 3 - Basic Guide',
-        'Vue 4 - The Mystery'
-      ]
-    }
-  })
-}
-```
+### Confianza al Refactorizar
 
-Non-code blocks are ignored.
+Permite reestructurar código con la certeza de que cualquier ruptura será detectada.
 
-```vue
-<!-- step 4 -->
-<script setup>
-const author = {
-  name: 'John Doe',
-  books: [
-    'Vue 2 - Advanced Guide',
-    'Vue 3 - Basic Guide',
-    'Vue 4 - The Mystery'
-  ]
-}
-</script>
-```
-````
+### Prevención de Regresiones
+
+Asegura que cambios futuros no rompan funcionalidades preexistentes.
 
 ---
-src: ./pages/imported-slides.md
-hide: false
+
+# Tipos de Cobertura
+
+Existen diferentes métricas para medir la cobertura según el nivel de rigor requerido:
+
+| Métrica | Definición | Rigor |
+| --- | --- | --- |
+| **Líneas / Instrucciones** *(Line/Statement)* | Porcentaje de líneas de código ejecutable recorridas al menos una vez. | Básico |
+| **Métodos / Funciones** *(Method Coverage)* | Porcentaje de métodos o funciones invocados al menos una vez. | Medio |
+| **Ramas / Decisiones** *(Branch Coverage)* | Porcentaje de rutas lógicas evaluadas (evalúa casos `true` y `false` de condicionales). | Estricto |
+
 ---
 
-<PoweredBySlidev mt-10 />
+# Herramientas para medir Cobertura
+
+Herramientas comunes según el ecosistema tecnológico:
+
+* **Java:** `JaCoCo` (Integrado con Maven / Gradle)
+* **Python:** `pytest-cov`, `coverage.py`
+* **.NET / C#:** `Coverlet`
+* **Go:** `go test -cover` (Nativo)
+
+* **Rust:** `cargo-llvm-cov`, `tarpaulin`
+* **JavaScript / TypeScript:** `Istanbul`, `Jest`, `Vitest`
+* **C / C++:** `gcov`, `lcov`
+
+**Reportes e Informes:** Estas herramientas generan salidas visuales (HTML, XML, LCOV) detallando porcentajes globales, por paquete, clase y líneas no cubiertas.
+
+---
+
+# Interpretación de Informes y Limitaciones
+
+### Interpretación del Informe
+
+* **Código de Colores:**
+* Verde: Totalmente cubierto.
+* Amarillo: Cobertura parcial de ramas.
+* Rojo: Líneas sin ejecutar.
+
+
+* **Navegación:** Permite inspeccionar desde nivel global hasta la línea exacta sin ejecutar.
+
+### Limitaciones Principales
+
+1. **No mide la calidad de aserciones:** Una línea ejecutada no garantiza que los resultados sean validados correctamente.
+2. **Omite casos límite (*Edge Cases*):** No asegura pruebas con datos extremos, nulos o inválidos.
+3. **Cantidad vs. Calidad:** Puede fomentar pruebas superficiales solo para aumentar el porcentaje.
+
+---
+
+# ¿Por qué 100% de Cobertura no garantiza 0 Errores?
+
+1. **Ejecución ≠ Corrección:** Que una línea se ejecute no implica que su comportamiento sea el correcto.
+2. **Combinatoria de Entradas y Estado:** La cobertura no contempla todas las posibles permutaciones de estado, concurrencia o datos de entrada.
+3. **Errores de Especificación:** Si el requisito o la prueba inicial están mal planteados, el código cubrirá una lógica errónea al 100%.
+---
+
+# Conclusión:
+
+La cobertura es una métrica de **diagnóstico de puntos ciegos**, no una garantía absoluta de ausencia de fallos.
+
+<br>
+<br>
+<br>
+
+> Las pruebas de programas pueden ser una forma muy eficaz de demostrar la presencia de errores, pero resultan totalmente insuficientes para demostrar su ausencia.
+- Edsger Dijkstra. *the humble programmer* (1972)
+
+---
+layout: end
+class: text-center
+---
+
+# ¿Preguntas o Comentarios?
+
+Gracias por su atención.
